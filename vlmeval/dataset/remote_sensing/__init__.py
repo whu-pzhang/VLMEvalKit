@@ -1,0 +1,1 @@
+from .scene_classification import SceneClassificationDataset

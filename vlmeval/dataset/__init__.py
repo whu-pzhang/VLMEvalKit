@@ -47,6 +47,9 @@ from .utils import *
 from .video_dataset_config import *
 from ..smp import *
 
+# remote sensing dataset
+from .remote_sensing import SceneClassificationDataset
+
 
 class ConcatDataset(ImageBaseDataset):
     # This dataset takes multiple dataset names as input and aggregate them into a single dataset.
@@ -141,7 +144,7 @@ IMAGE_DATASET = [
     GMAIMMBenchDataset, MMERealWorld, HRBenchDataset, CRPE, MathVerse, NaturalBenchDataset,
     MIABench, OlympiadBench, WildVision, MMMath, QSpatial, Dynamath, MMGenBench, VizWiz, MMNIAH,
     CMMMU, VLRewardBench, WeMath, LogicVista, MMMUProDataset, CreationMMBenchDataset,
-    ImageShortQADataset, MMAlignBench
+    ImageShortQADataset, MMAlignBench, SceneClassificationDataset
 ]
 
 VIDEO_DATASET = [
