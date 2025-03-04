@@ -1,21 +1,21 @@
+import multiprocessing as mp
 import os.path as osp
 import warnings
+from functools import partial
 
-from ...smp import toliststr
+import numpy as np
+
+from ...smp import d2df, dump, listinstr, load, toliststr
 from ..image_base import ImageBaseDataset
 
 
-class DiorRSVGDataset(ImageBaseDataset):
-    TYPE = 'REF'
+class RSImageBaseDataset(ImageBaseDataset):
+    """Compared with the original implementation, the remote sensing image
+    dataset store image_path instead of encoded base64 image.
+    """
 
-    DATASET_URL = {
-        'DIOR-RSVG':
-        'https://modelscope.cn/datasets/pzhang199/RSBench/resolve/master/dior_rsvg_test.tsv'
-    }
-    DATASET_MD5 = {'DIOR-RSVG': '86f995eda97e5f6f43cbd9458dafff61'}
-
-    def __init__(self, image_root, **kwargs):
-        super().__init__(kwargs)
+    def __init__(self, image_root=None, **kwargs):
+        super().__init__(**kwargs)
         self.image_root = image_root
 
     def build_prompt(self, line):
@@ -23,6 +23,8 @@ class DiorRSVGDataset(ImageBaseDataset):
             line = self.data.iloc[line]
 
         if self.meta_only:
+            assert self.image_root is not None
+            # create full image path
             tgt_path = [
                 osp.join(self.image_root, p)
                 for p in toliststr(line['image_path'])
@@ -39,6 +41,3 @@ class DiorRSVGDataset(ImageBaseDataset):
             msgs = [dict(type='image', value=tgt_path)]
         msgs.append(dict(type='text', value=question))
         return msgs
-
-    def evaluate(self, eval_file, **judge_kwargs):
-        return super().evaluate(eval_file, **judge_kwargs)

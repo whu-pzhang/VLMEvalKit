@@ -6,9 +6,10 @@ import numpy as np
 
 from ...smp import d2df, dump, listinstr, load
 from ..image_base import ImageBaseDataset
+from .rs_image_base import RSImageBaseDataset
 
 
-class SceneClassificationDataset(ImageBaseDataset):
+class SceneClassificationDataset(RSImageBaseDataset):
     TYPE = 'VQA'
 
     DATASET_URL = {
